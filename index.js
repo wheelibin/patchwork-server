@@ -1,5 +1,6 @@
 const Koa = require("koa");
 const app = new Koa();
+const cors = require("koa-cors");
 const Router = require("koa-rest-router");
 const apiRouter = Router({ prefix: "/api/v1" });
 
@@ -33,6 +34,7 @@ apiRouter.resource("patches", {
   }
 });
 
+app.use(cors());
 app.use(apiRouter.middleware());
 
 const port = process.env.PORT || 3001;
