@@ -6,7 +6,7 @@ const database = require("../database");
 const getPatchById = async id => {
   await mongoose.connect(database.connectionString);
   const patch = await Patch.findById(id);
-  return patch;
+  return patch || {};
 };
 
 const savePatch = async markup => {
