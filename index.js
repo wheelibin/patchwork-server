@@ -3,9 +3,17 @@ const app = new Koa();
 const cors = require("koa-cors");
 const Router = require("koa-rest-router");
 const bodyParser = require("koa-bodyparser");
+const mongoose = require("mongoose");
 
+const database = require("./database");
 const apiRouter = Router({ prefix: "/api/v1" });
 const patchesController = require("./controllers/patchesController");
+const modulesController = require("./controllers/modulesController");
+
+mongoose.connect(
+  database.connectionString,
+  { useNewUrlParser: true }
+);
 
 // Request method	Route path	Controller method
 // GET	/users	index
@@ -19,6 +27,11 @@ const patchesController = require("./controllers/patchesController");
 apiRouter.resource("patches", {
   show: patchesController.getPatch,
   create: patchesController.savePatch
+});
+
+apiRouter.resource("modules", {
+  show: modulesController.getModuleByName,
+  create: modulesController.saveModule
 });
 
 app.use(cors());
